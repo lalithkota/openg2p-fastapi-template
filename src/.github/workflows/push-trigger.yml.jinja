@@ -94,7 +94,7 @@ jobs:
     {%- if github_ci_tests %}
     needs: test
     {%- endif %}
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && env.STOPLIGHT_PROJECT_TOKEN != ''
     steps:
       - uses: actions/checkout@v3
       - name: Get branch name (merge)
