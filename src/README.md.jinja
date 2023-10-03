@@ -1,0 +1,21 @@
+# {{ repo_name }}
+
+{%- if github_ci_precommit %}
+[![Pre-commit Status](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/pre-commit.yml/badge.svg?branch=develop)](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/pre-commit.yml?query=branch%3Adevelop)
+{%- endif %}
+{%- if github_ci_tests %}
+[![Build Status](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/test.yml/badge.svg?branch=develop)](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/test.yml?query=branch%3Adevelop)
+{%- endif %}
+{%- if github_ci_tests_codecov %}
+[![codecov](https://codecov.io/gh/{{ org_slug }}/{{ repo_slug }}/branch/develop/graph/badge.svg)](https://codecov.io/gh/{{ org_slug }}/{{ repo_slug }})
+{%- endif %}
+{%- if github_ci_openapi_publish %}
+[![openapi](https://img.shields.io/badge/open--API-swagger-brightgreen)](https://validator.swagger.io/?url=https://raw.githubusercontent.com/{{ org_slug }}/{{ repo_slug }}/develop/api-docs/generated/openapi.json)
+{%- endif %}
+{%- if github_ci_pypi_publish %}
+![PyPI](https://img.shields.io/pypi/v/{{ package_name }}?label=pypi%20package)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/{{ package_name }})
+{%- endif %}
+## Licenses
+
+This repository is licensed under [MPL-2.0](LICENSE).
