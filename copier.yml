@@ -1,0 +1,66 @@
+_subdirectory: src
+
+org_slug:
+  type: str
+  default: OpenG2P
+  help:
+    Organization slug? If you are creating
+    https://github.com/OpenG2P/new-service, then write "OpenG2P" here.
+
+org_name:
+  type: str
+  default: OpenG2P
+  help:
+    Human-readable version of organization slug. To go into READMEs.
+
+repo_slug:
+  type: str
+  help:
+    Repo slug? If you are creating https://github.com/OpenG2P/new-service, then
+    write "new-service" here.
+
+repo_name:
+  type: str
+  help:
+    Human-readable version of repo slug. To go into READMEs.
+
+package_name:
+  type: str
+  help: Name of the installable python package. This cannot be empty. Example 'openg2p-sample-service'.
+  default: {{ repo_slug | replace("_", "-") }}
+
+module_name:
+  type: str
+  help: Name of the module inside the python package. This cannot be empty. Example 'openg2p_sample_service'.
+  default: {{ package_name | replace("-", "_") }}
+
+github_ci_precommit:
+  type: bool
+  help: Whether to install precommit github action?
+  default: yes
+
+github_ci_tests:
+  type: bool
+  help: Whether to install testing github action?
+  default: yes
+
+github_ci_tests_codecov:
+  type: bool
+  help: Whether to include codecov in testing github action?
+  default: yes
+  when: {{ github_ci_tests }}
+
+github_ci_docker_build:
+  type: bool
+  help: Whether to install github action that builds and pushes docker image(s)?
+  default: yes
+
+github_ci_openapi_publish:
+  type: bool
+  help: Whether to install github action that generate and publishs openapi json on push (this also publishs to stoplight)?
+  default: yes
+
+github_ci_pypi_publish:
+  type: bool
+  help: Whether to install github action that publishes project to PyPI when released?
+  default: yes
