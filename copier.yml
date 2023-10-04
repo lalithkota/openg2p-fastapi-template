@@ -27,40 +27,40 @@ repo_name:
 package_name:
   type: str
   help: Name of the installable python package. This cannot be empty. Example 'openg2p-sample-service'.
-  default: {{ repo_slug | replace("_", "-") }}
+  default: "{{ repo_slug | replace('_', '-') }}"
 
 module_name:
   type: str
   help: Name of the module inside the python package. This cannot be empty. Example 'openg2p_sample_service'.
-  default: {{ package_name | replace("-", "_") }}
+  default: "{{ package_name | replace('-', '_') }}"
 
 github_ci_precommit:
   type: bool
-  help: Whether to install precommit github action?
+  help: Install precommit github action?
   default: yes
 
 github_ci_tests:
   type: bool
-  help: Whether to install testing github action?
+  help: Install testing github action?
   default: yes
 
 github_ci_tests_codecov:
   type: bool
-  help: Whether to include codecov in testing github action?
+  help: Include codecov in testing github action?
   default: yes
-  when: {{ github_ci_tests }}
+  when: "{{ github_ci_tests }}"
 
 github_ci_docker_build:
   type: bool
-  help: Whether to install github action that builds and pushes docker image(s)?
+  help: Install github action that builds and pushes docker image(s)?
   default: yes
 
 github_ci_openapi_publish:
   type: bool
-  help: Whether to install github action that generate and publishs openapi json on push (this also publishs to stoplight)?
+  help: Install github action that generate and publishs openapi json on push (this also publishs to stoplight)?
   default: yes
 
 github_ci_pypi_publish:
   type: bool
-  help: Whether to install github action that publishes project to PyPI when released?
+  help: Install github action that publishes project to PyPI when released?
   default: yes

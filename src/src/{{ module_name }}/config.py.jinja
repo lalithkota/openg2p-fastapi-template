@@ -1,6 +1,6 @@
-from pydantic_settings import SettingsConfigDict
 from openg2p_fastapi_common.config import Settings
+from pydantic_settings import SettingsConfigDict
 
 
-class SettingsExtended(Settings, extends=Settings):
+class Settings(Settings):
     model_config = SettingsConfigDict(env_prefix="{{ module_name }}")
