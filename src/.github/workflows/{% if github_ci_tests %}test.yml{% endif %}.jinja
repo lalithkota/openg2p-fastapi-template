@@ -1,0 +1,49 @@
+name: Test and coverage
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+concurrency:
+  group: {% raw %}check-${{ github.ref }}{% endraw %}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: test with {% raw %}${{ matrix.py }} on ${{ matrix.os }}{% endraw %}
+    runs-on: {% raw %}${{ matrix.os }}{% endraw %}
+    strategy:
+      fail-fast: false
+      matrix:
+        py:
+          - "3.10"
+        os:
+          - ubuntu-latest
+    services:
+      postgres:
+        image: postgres:9.6
+        env:
+          POSTGRES_USER: openg2p
+          POSTGRES_PASSWORD: openg2p
+          POSTGRES_DB: openg2p
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup python for test {% raw %}${{ matrix.py }}{% endraw %}
+        uses: actions/setup-python@v4
+        with:
+          python-version: {% raw %}${{ matrix.py }}{% endraw %}
+      - name: Install tox
+        run: python -m pip install tox-gh>=1.2
+      - name: Setup test suite
+        run: tox -vv --notest
+      - name: Run test suite
+        run: tox --skip-pkg-install
+      {%- if github_ci_tests_codecov %}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+      {%- endif %}
