@@ -3,4 +3,4 @@ from pydantic_settings import SettingsConfigDict
 
 
 class Settings(Settings):
-    model_config = SettingsConfigDict(env_prefix="{{ module_name }}")
+    model_config = SettingsConfigDict(env_prefix="{{ module_name }}", env_file=".env")
