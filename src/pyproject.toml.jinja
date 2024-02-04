@@ -4,7 +4,6 @@ build-backend = "hatchling.build"
 
 [project]
 name = "{{ package_name }}"
-version = "0.1.0"
 authors = [
   { name="{{ org_name }}", email="info@openg2p.org" },
 ]
@@ -16,13 +15,17 @@ classifiers = [
   "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
   "Operating System :: OS Independent",
 ]
-dependencies=[
+dependencies = [
   "openg2p-fastapi-common",
   "openg2p-fastapi-auth",
 ]
+dynamic = ["version"]
 
 [project.urls]
 Homepage = "https://openg2p.org"
 Documentation = "https://docs.openg2p.org/"
 Repository = "https://github.com/{{ org_slug }}/{{ repo_slug }}"
 Source = "https://github.com/{{ org_slug }}/{{ repo_slug }}"
+
+[tool.hatch.version]
+path = "src/{{ module_name }}/__init__.py"
