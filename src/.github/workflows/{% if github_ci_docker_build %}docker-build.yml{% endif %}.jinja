@@ -9,14 +9,13 @@ jobs:
     name: Docker Build and Push
     runs-on: ubuntu-latest
     env:
-      NAMESPACE: {% raw %}${{ secrets.docker_hub_organisation }}{% endraw %}
+      NAMESPACE: {% raw %}${{ secrets.docker_hub_organisation | 'openg2p' }}{% endraw %}
       SERVICE_NAME: {{ package_name }}
     steps:
       - uses: actions/checkout@v3
-      - name: Docker build and push
+      - name: Docker build
         run: |
           BRANCH_NAME=$(echo {% raw %}${{ github.ref }}{% endraw %} | sed -e 's,.*/\(.*\),\1,')
-          echo "{% raw %}${{ secrets.docker_hub_token }}{% endraw %}" | docker login -u {% raw %}${{ secrets.docker_hub_actor }}{% endraw %} --password-stdin
           if [ $? -ne 0 ];then
             echo "::error::Failed to Login to dockerhub"
             exit 1;
@@ -32,9 +31,18 @@ jobs:
           fi
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
+          echo IMAGE_ID=$IMAGE_ID >> $GITHUB_ENV
+          echo VERSION=$VERSION >> $GITHUB_ENV
 
           docker build . \
             --file Dockerfile \
             --tag $IMAGE_ID:$VERSION
-
-          docker push $IMAGE_ID:$VERSION
+          if [[ {% raw %}'${{ secrets.docker_hub_token }}' != '' && '${{ secrets.docker_hub_actor }}' != ''{% endraw %} ]]; then
+            export DOCKER_PUSH="true"
+            echo DOCKER_PUSH=$DOCKER_PUSH >> $GITHUB_ENV
+          fi
+      - name: Docker push
+        if: env.DOCKER_PUSH == 'true'
+        run: |
+          echo {% raw %}"${{ secrets.docker_hub_token }}{% endraw %}" | docker login -u {% raw %}${{ secrets.docker_hub_actor }}{% endraw %} --password-stdin
+          docker push {% raw %}${{ env.IMAGE_ID }}:${{ env.VERSION }}{% endraw %}
