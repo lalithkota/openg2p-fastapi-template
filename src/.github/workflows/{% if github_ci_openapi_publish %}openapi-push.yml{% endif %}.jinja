@@ -41,10 +41,10 @@ jobs:
           message: "Generated new openapi.json on push to {% raw %}${{ github.event.inputs.git-ref }}{% endraw %}"
           add: "api-docs/generated/openapi.json"
       - name: Setup nodejs
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         if: env.OPENAPI_CHANGED == 'true'
         with:
-          node-version: '14'
+          node-version: '18'
       - name: Publish to stoplight
         if: env.OPENAPI_CHANGED == 'true'
         run: |
