@@ -16,10 +16,6 @@ jobs:
       - name: Docker build
         run: |
           BRANCH_NAME=$(echo {% raw %}${{ github.ref }}{% endraw %} | sed -e 's,.*/\(.*\),\1,')
-          if [ $? -ne 0 ];then
-            echo "::error::Failed to Login to dockerhub"
-            exit 1;
-          fi
 
           IMAGE_ID=$NAMESPACE/$SERVICE_NAME
 
