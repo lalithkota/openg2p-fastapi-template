@@ -9,7 +9,7 @@ jobs:
     name: Docker Build and Push
     runs-on: ubuntu-latest
     env:
-      NAMESPACE: {% raw %}${{ secrets.docker_hub_organisation | 'openg2p' }}{% endraw %}
+      NAMESPACE: {% raw %}${{ secrets.docker_hub_organisation || 'openg2p' }}{% endraw %}
       SERVICE_NAME: {{ package_name }}
     steps:
       - uses: actions/checkout@v3
